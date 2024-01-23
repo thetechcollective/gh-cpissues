@@ -1,0 +1,102 @@
+#!/usr/bin/env bash
+set -e
+
+echo "Hello gh-cpissues!"
+
+USAGE="gh cpissues <git-repo> [--label <label>]"
+
+
+
+if [ -z "$1" ]
+then
+ echo $USAGE
+ exit 1
+fi
+
+git_repo="$1"
+shift
+
+# Initialize label variable
+label=""
+test=""
+
+# Parse remaining arguments
+while [ $# -gt 0 ]; do
+ arg="$1"
+ case "$arg" in
+    --label)
+      # Check if label argument is provided
+      if [ -n "$2" ]; then
+        label="$2"
+        shift
+      else
+        echo "Label cannot be empty"
+        exit 1
+      fi
+      shift
+      ;;
+    --test)
+      # Check if label argument is provided
+      if [ -n "$2" ]; then
+        test="$2"
+        shift
+      else
+        echo "Test cannot be empty"
+        exit 1
+      fi
+      shift
+      ;;
+    *)
+      echo "Unknown argument: $arg"
+      exit 1
+      ;;
+ esac
+done
+
+
+printf "Argument git_repo is %s\n" "$git_repo"
+printf "option label is %s\n" "$label"
+printf "option test is %s\n" "$test"
+
+exit 0
+
+REPOROOT=$(git rev-parse --show-toplevel)
+TEMPLATEDIR=$REPOROOT/.github/template
+TEMPLATECONFIG=$TEMPLATEDIR/gitconfig
+TEMPLATELABEL=$(git config -f $TEMPLATECONFIG template.issue-label)
+TEMPLATEREPO=$(git config -f $TEMPLATECONFIG template.repo)
+TEMPLATEISSUES=$TEMPLATEDIR/issues.json 
+TMPFILE=$TEMPLATEDIR/body.tmp
+CLEANUP=
+
+cd $REPOROOT
+echo "Hello gh-cpissues!"
+
+
+ if [ -e $TEMPLATEISSUES ] 
+ then
+    echo "Using cached issues"
+ else
+   gh issue list --search "sort:created-asc" --label $TEMPLATELABEL -R $TEMPLATEREPO --json 'title,body' > $TEMPLATEISSUES
+   CLEANUP="rm $TEMPLATEISSUES"
+ fi
+
+for row in $(cat $TEMPLATEISSUES | jq -r '.[] | @base64'); do
+    _jq() { 
+     echo ${row} | base64 --decode | jq -r ${1}
+    }
+   TITLE=$(_jq '.title' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+   
+   if gh issue list | grep -e ".*$TITLE.*" >/dev/null ; then
+     echo "Issue already exitst: ($TITLE)"
+   else
+     echo Copying issue: \'$TITLE\'
+     echo $(_jq '.body') > $TMPFILE
+     cmd="gh issue create --title \"$(_jq '.title')\" --body-file $TMPFILE"
+     eval $cmd
+     rm $TMPFILE
+   fi
+
+done
+
+eval $CLEANUP
