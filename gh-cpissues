@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -e
+debugMode="debug"
 
 USAGE="gh cpissues <git-repo> --label <label>"
 
@@ -72,7 +73,10 @@ for row in $(cat $TEMPLATEISSUES | jq -r '.[] | @base64'); do
      cmd="gh issue create --title \"$(_jq '.title')\" --body-file $TMPFILE"
      eval $cmd
      # Clean up
-     rm $TMPFILE
+     if [[ "$debugMode" != "debug" ]]; then
+      rm $TMPFILE
+    fi
+
    fi
 
 done
