@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
 set -e
-#IF YOU WANT TO DEBUG THE SCRIPT, SET debugMode="debug" (otherwise, set it to "release")
-debugMode="release"
 
 USAGE="gh cpissues <git-repo> --label <label>"
 
 # Parse Repo argument
-if [ -z "$1" ]; then
-    echo $USAGE
-    exit 1
+if [ -z "$1" ]
+then
+ echo $USAGE
+ exit 1
 fi
 
 TEMPLATEREPO="$1"
@@ -19,29 +18,29 @@ LABEL=""
 
 # Parse remaining arguments
 while [ $# -gt 0 ]; do
-    arg="$1"
-    case "$arg" in
-        --label)
-            if [ -n "$2" ]; then
-                LABEL="$2"
-                shift
-            else
-                echo "--label cannot be empty"
-                exit 1
-            fi
-            shift
-            ;;
-        *)
-            echo "Unknown argument: $arg"
-            exit 1
-            ;;
-    esac
+ arg="$1"
+ case "$arg" in
+    --label)
+      if [ -n "$2" ]; then
+        LABEL="$2"
+        shift
+      else
+        echo "--label cannot be empty"
+        exit 1
+      fi
+      shift
+      ;;
+    *)
+      echo "Unknown argument: $arg"
+      exit 1
+      ;;
+ esac
 done
 
 # Check if label is set
 if [[ -z "$LABEL" ]]; then
-    echo $USAGE
-    exit 1
+ echo $USAGE
+ exit 1
 fi
 
 # Define temp files
@@ -56,40 +55,27 @@ gh issue list --search "sort:created-asc" --label $LABEL -R $TEMPLATEREPO --json
 
 # Check if issues were found
 if jq -e '. | length == 0' "$TEMPLATEISSUES" > /dev/null; then
-    echo "No issues found in $TEMPLATEREPO with label \"$LABEL\""
+ echo "No issues found in $TEMPLATEREPO with label \"$LABEL\""
 fi
 
 for row in $(cat $TEMPLATEISSUES | jq -r '.[] | @base64'); do
     _jq() { 
-        echo ${row} | base64 --decode | jq -r ${1}
+     echo ${row} | base64 --decode | jq -r ${1}
     }
-    TITLE=$(_jq '.title' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+   TITLE=$(_jq '.title' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
    
-    if gh issue list | grep -e ".*$TITLE.*" >/dev/null ; then
-        echo "Issue already exists: ($TITLE)"
-    else
-        echo Copying issue: \'$TITLE\'
-        # Pre-process the issue body to replace \n and spaces with invisible elements only inside code blocks
-        echo $(_jq '.body' | awk '
-            /^```/ { in_code_block=!in_code_block; print; next }
-            {
-                if (in_code_block) {
-                    gsub(/\n/, " ");
-                    gsub(/ /, " ");
-                }
-                print;
-            }
-        ') > $TMPFILE
-        cmd="gh issue create --title \"$(_jq '.title')\" --body-file $TMPFILE"
-        eval $cmd
-        # Clean up
-        if [[ "$debugMode" != "debug" ]]; then
-            rm $TMPFILE
-        fi
-    fi
+   if gh issue list | grep -e ".*$TITLE.*" >/dev/null ; then
+     echo "Issue already exitst: ($TITLE)"
+   else
+     echo Copying issue: \'$TITLE\'
+     echo $(_jq '.body') > $TMPFILE
+     cmd="gh issue create --title \"$(_jq '.title')\" --body-file $TMPFILE"
+     eval $cmd
+     # Clean up
+     rm $TMPFILE
+   fi
+
 done
 
 # Clean up
-if [[ "$debugMode" != "debug" ]]; then
 eval rm $TEMPLATEISSUES
-fi
