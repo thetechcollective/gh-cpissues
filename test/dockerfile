@@ -1,0 +1,15 @@
+FROM alpine:latest
+
+# Install git, curl, and GitHub CLI
+RUN apk add --no-cache git curl github-cli
+RUN apk add --no-cache jq
+
+# Copy your scripts and issues directory
+COPY startup.sh /startup.sh 
+COPY shutdown.sh /shutdown.sh
+COPY /issues /issues
+
+# Make your scripts executable
+RUN chmod +x /startup.sh /shutdown.sh
+
+CMD ["/startup.sh"]
