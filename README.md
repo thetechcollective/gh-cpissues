@@ -8,7 +8,7 @@ A GitHub CLI extension to copy GitHub Issues from one repository to another base
 ## Installation 
 
 1. Make sure you have the GitHub CLI installed. 
-2. Install the gh extension from the repository with command: `gh extension install thetechcolletive/gh-cpissues`
+2. Install the gh extension from the repository with command: `gh extension install thetechcollective/gh-cpissues`
 
 ## Usage
 
