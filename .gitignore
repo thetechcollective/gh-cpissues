@@ -1,1 +1,2 @@
-test/credentials.env
+test/credential.env
+*.env
