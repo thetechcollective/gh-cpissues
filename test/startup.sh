@@ -1,10 +1,6 @@
 #!/bin/sh
 
-
 ISSUES_DIR="./issues"
-
-# Set the GITHUB_TOKEN for the GitHub API
-export GITHUB_TOKEN="$GITHUB_TOKEN"
 
 # Create GitHub repositories
 curl -X POST -u "$GITHUB_USER:$GITHUB_TOKEN" \
@@ -64,6 +60,3 @@ cd $REPO_TEST_NAME
 gh extension install thetechcollective/gh-cpissues
 
 gh cpissues $GITHUB_USER/$REPO_ISSUES_NAME --label template
-
-# Keep the container running
-sleep infinity
