@@ -1,8 +1,10 @@
 FROM alpine:latest
 
-# Install git, curl, and GitHub CLI
-RUN apk add --no-cache git curl github-cli
-RUN apk add --no-cache jq
+# Install git, curl, GitHub CLI, and Bash
+RUN apk add --no-cache git curl github-cli bash jq coreutils
+
+# Change the default shell from Ash to Bash
+SHELL ["/bin/bash", "-c"]
 
 # Copy your scripts and issues directory
 COPY startup.sh /startup.sh 
