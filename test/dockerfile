@@ -3,15 +3,13 @@ FROM alpine:latest
 # Install git, curl, GitHub CLI, and Bash
 RUN apk add --no-cache git curl github-cli bash jq coreutils
 
-# Change the default shell from Ash to Bash
-SHELL ["/bin/bash", "-c"]
-
 # Copy your scripts and issues directory
 COPY startup.sh /startup.sh 
 COPY shutdown.sh /shutdown.sh
+COPY test.sh /test.sh
+COPY master.sh /master.sh
 COPY /issues /issues
 
 # Make your scripts executable
-RUN chmod +x /startup.sh /shutdown.sh
-
-CMD ["/startup.sh"]
+RUN chmod +x /startup.sh /test.sh /shutdown.sh /master.sh
+ENTRYPOINT ["/master.sh"]
