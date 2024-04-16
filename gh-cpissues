@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
+source .env
 set -e
 #IF YOU WANT TO DEBUG THE SCRIPT, SET debugMode="debug" (otherwise, set it to "release")
-debugMode="release"
+debugMode="$MODE"
 
 USAGE="gh cpissues <git-repo> --label <label>"
 
