@@ -6,7 +6,8 @@
 	"image": "mcr.microsoft.com/devcontainers/base:jammy",
 	"features": {
 		"ghcr.io/devcontainers/features/common-utils:2": {},
-		"ghcr.io/devcontainers/features/github-cli:1": {}
+		"ghcr.io/devcontainers/features/github-cli:1": {},
+		"ghcr.io/edouard-lopez/devcontainer-features/bats:0": {}
 	}
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
