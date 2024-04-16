@@ -1,2 +1,3 @@
 test/credential.env
 *.env
+_*
