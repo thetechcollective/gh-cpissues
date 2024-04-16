@@ -1,0 +1,3 @@
+[setup]
+    key1 = value1
+    dest-repo = testrepo
