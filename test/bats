@@ -1,0 +1,7 @@
+#!/usr/bin/env bats
+
+@test "addition using bc" {
+    SOURCECOUNT=$(gh issue --repo thetechcollective/gh-cpissues list --label "testsample" --json title --jq 'length')
+    TARGETCOUNT=$(gh issue list --label "testsample" --json title --jq 'length')
+    [ $SOURCECOUNT -eq $TARGETCOUNT ]
+}
