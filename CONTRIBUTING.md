@@ -1,11 +1,5 @@
-# Contributing 
+gh auth login --scopes "delete_repo"
 
-We love pull requests from everyone and are very open to any participation in this project. 
+gh repo create testrepo --add-readme --description "Description of testrepo" --public
 
-Fork, then clone the repository:
-
-```
-git clone git@github.com:thetechcollective/gh-cpissues.git
-```
-
-Push to your fork and submit a pull request. 
+gh repo delete $(gh api user --jq '.login')/testrepo --yes
