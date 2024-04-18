@@ -20,8 +20,9 @@ Replace '`<git-repo>`' with the target repository where you want to copy the iss
 `[--verbose]`: (Optional) Include this flag to get more detailed output about the operation. This can be helpful for debugging or understanding the process in more detail.
 
 ## Options 
-- '`<git-repo>`': The target repository in the format '`<owner>/<repository>`'.
-- '`--label <label>`': Specify the label of the issues to copy. 
+- `<git-repo>`: The target repository in the format '`<owner>/<repository>`'.
+- `--label <label>`: Specify the label of the issues to copy. 
+- `--verbose`': Include it in your command if you want more detailed output. Will keep the .tmp and .json file.
 
 ## Example 
 
