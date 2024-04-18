@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 set -e
-#IF YOU WANT TO DEBUG THE SCRIPT, SET debugMode="debug" (otherwise, set it to "release")
-debugMode="release"
 
-USAGE="gh cpissues <git-repo> --label <label>"
+USAGE="gh cpissues <git-repo> --label <label> [--verbose]"
 
 # Parse Repo argument
 if [ -z "$1" ]; then
@@ -16,6 +14,7 @@ shift
 
 # Initialize label variable
 LABEL=""
+VERBOSE=false
 
 # Parse remaining arguments
 while [ $# -gt 0 ]; do
@@ -29,6 +28,10 @@ while [ $# -gt 0 ]; do
                 echo "--label cannot be empty"
                 exit 1
             fi
+            shift
+            ;;
+        --verbose)
+            VERBOSE=true
             shift
             ;;
         *)
@@ -73,13 +76,13 @@ for row in $(cat $TEMPLATEISSUES | jq -r '.[] | @base64'); do
         cmd="gh issue create --title \"$(_jq '.title')\" --body-file $TMPFILE"
         eval $cmd
         # Clean up
-        if [[ "$debugMode" != "debug" ]]; then
+        if [ "$VERBOSE" = false ]; then
             rm $TMPFILE
         fi
     fi
 done
 
 # Clean up
-if [[ "$debugMode" != "debug" ]]; then
+if [ "$VERBOSE" = false ]; then
 eval rm $TEMPLATEISSUES
 fi
