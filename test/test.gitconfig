@@ -1,2 +1,3 @@
 [setup]
     dest-repo = _testrepo
+    readme = "Desc of testrepo"
