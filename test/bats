@@ -5,20 +5,31 @@
 ROOT_DIR=/workspaces/gh-cpissues
 USER=$(gh api user --jq '.login')
 path_to_gitconfig=$ROOT_DIR/test/test.gitconfig
+path_to_cases=$ROOT_DIR/test/cases
 DEST_REPO=$(git config --file $path_to_gitconfig setup.dest-repo)
 
 #Please ensure to run this script from the directory that was created in setup.sh to avoid path-related errors.
-setup() {
+setup_file() {
     gh cpissues thetechcollective/gh-cpissues --label testsample
 }
 
-@test "CopyCorrectNumberOfIssues" {
-    SOURCECOUNT=$(gh issue --repo thetechcollective/gh-cpissues list --label "testsample" --json title --jq 'length')
-    TARGETCOUNT=$(gh issue list --json title --jq 'length')
-    [ $SOURCECOUNT -eq $TARGETCOUNT ]
+@test "copy-correct-number-of-issues" {
+    $path_to_cases/copy-correct-number-of-issues.bats
 }
 
-teardown() {
+@test "issue-already-exist" {
+    $path_to_cases/issue-already-exist.bats
+}   
+
+@test "no-issues-with-label" {
+    $path_to_cases/no-issues-with-label.bats
+}
+
+@test "incorrect-syntax" {
+    $path_to_cases/incorrect-syntax.bats
+}
+
+teardown_file() {
     delete_issues
 }
 
