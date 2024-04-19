@@ -14,23 +14,23 @@ setup_file() {
 }
 
 @test "copy-correct-number-of-issues" {
-    $path_to_cases/copy-correct-number-of-issues.bats
+    $path_to_cases/copy-correct-number-of-issues.sh
 }
 
 @test "successful-copy-of-body" {
-    $path_to_cases/successful-copy-of-body.bats 
+    $path_to_cases/successful-copy-of-body.sh
 }
 
 @test "issue-already-exist" {
-    $path_to_cases/issue-already-exist.bats
+    $path_to_cases/issue-already-exist.sh
 }   
 
 @test "no-issues-with-label" {
-    $path_to_cases/no-issues-with-label.bats
+    $path_to_cases/no-issues-with-label.sh
 }
 
 @test "incorrect-syntax" {
-    $path_to_cases/incorrect-syntax.bats
+    $path_to_cases/incorrect-syntax.sh
 }
 
 teardown_file() {
