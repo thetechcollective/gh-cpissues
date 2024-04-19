@@ -17,6 +17,10 @@ setup_file() {
     $path_to_cases/copy-correct-number-of-issues.bats
 }
 
+@test "successful-copy-of-body" {
+    $path_to_cases/successful-copy-of-body.bats 
+}
+
 @test "issue-already-exist" {
     $path_to_cases/issue-already-exist.bats
 }   
