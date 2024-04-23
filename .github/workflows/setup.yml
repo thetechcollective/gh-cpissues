@@ -10,6 +10,7 @@ env:
 permissions:
   issues:   write   
   repository-projects: write
+  contents: write
 
 jobs:
  test:
@@ -39,3 +40,4 @@ jobs:
       run: |
         chmod +x ./test/teardown.sh
         ./test/teardown.sh
+
