@@ -14,8 +14,9 @@ README="Desc of testrepo"
 
 gh repo create $DEST_REPO --add-readme --description "$README" --public
 
-#pushd $ROOT_DIR/
-pushd /workspaces/gh-cpissues/
+echo "Current directory: $(pwd)"
+echo "Attempting to change to: /workspaces/gh-cpissues/"
+pushd $ROOT_DIR/
 gh repo clone $USER/$DEST_REPO
 gh extension install .
 popd
