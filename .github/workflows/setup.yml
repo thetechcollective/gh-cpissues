@@ -35,7 +35,8 @@ jobs:
       run: |
         echo "Current directory: $(pwd)"
         chmod +x ./test/bats
-        ./test/bats
+        cd _testrepo
+        /home/runner/work/gh-cpissues/gh-cpissues/test/bats
 
     - name: Run Teardown
       run: |
