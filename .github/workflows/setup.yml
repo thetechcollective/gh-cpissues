@@ -11,14 +11,6 @@ permissions:
   issues:   write   
   repository-projects: write
   contents: write
-  actions: write
-  checks: write
-  deployments: write
-  id-token: write
-  packages: write
-  pages: write
-  pull-requests: write
-  statuses: write
 
 jobs:
  test:
