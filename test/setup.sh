@@ -4,9 +4,7 @@ set -e -x
 #Assume that this is the correct root and that gitconfig is in test folder under root
 ROOT_DIR=/workspaces/gh-cpissues
 
-export GH_TOKEN=${{ secrets.GITHUB_TOKEN }}
-
-USER=$(gh api user --jq '.login')
+USER=$(gh api user --auth-token $GH_TOKEN --jq '.login')
 
 path_to_gitconfig=$ROOT_DIR/test/test.gitconfig
 
