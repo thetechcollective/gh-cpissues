@@ -27,13 +27,13 @@ jobs:
 
     - name: Run Setup
       run: |
-        echo "Current directory: $(pwd)"
         chmod +x ./test/setup.sh
         ./test/setup.sh
         cd _testrepo
 
     - name: Run Bats tests
       run: |
+        echo "Current directory: $(pwd)"
         chmod +x ./test/bats.sh
         gh-cpissues/test/bats.sh
 
