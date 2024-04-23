@@ -2,7 +2,7 @@ name: Unit tests med BATS
 on:
  push:
     branches:
-      - main
+      - actionsLuchas
 
 env:
   GITHUB_TOKEN: ${{ secrets.PAT }}
