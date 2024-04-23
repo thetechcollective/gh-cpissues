@@ -34,8 +34,8 @@ jobs:
     - name: Run Bats tests
       run: |
         echo "Current directory: $(pwd)"
-        chmod +x ./test/bats.sh
-        gh-cpissues/test/bats.sh
+        chmod +x ./test/bats
+        gh-cpissues/test/bats
 
     - name: Run Teardown
       run: |
