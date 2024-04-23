@@ -40,4 +40,3 @@ jobs:
       run: |
         chmod +x ./test/teardown.sh
         ./test/teardown.sh
-
